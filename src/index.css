@@ -1,0 +1,80 @@
+@import "tailwindcss";
+
+@theme {
+  /* Neue Montreal is the design typeface. Drop its .woff2 files in /public/fonts
+     and add @font-face rules to use it; Familjen Grotesk is the closest free match in width. */
+  --font-sans: "Neue Montreal", "Familjen Grotesk", "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-geist: "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, monospace;
+  --font-bebas: "Bebas Neue", "Geist Mono", sans-serif;
+
+  --color-muted: #bbbbbb;
+  --color-subtle: #8f8f8f;
+  --color-dim: #737373;
+  --color-line: rgb(255 255 255 / 0.1);
+  --color-brand: #2a62ff;
+
+  --ease-out-wave: cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+@layer base {
+  html {
+    background: #000;
+    color-scheme: dark;
+  }
+
+  body {
+    background: #000;
+    color: #fff;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  button {
+    cursor: pointer;
+  }
+}
+
+/*
+ * Banner wave intro.
+ * Each wave layer grows out of the leaf's left tip (--wave-origin), the point
+ * where the gradient shape starts in the design, instead of from its centre.
+ * Plays once per page load: the banner never remounts, so only a refresh replays it.
+ */
+.banner-wave {
+  transform-origin: var(--wave-origin);
+  animation:
+    wave-grow 1500ms var(--ease-out-wave) var(--wave-delay, 0ms) both,
+    wave-fade 600ms var(--ease-out-wave) var(--wave-delay, 0ms) both;
+  will-change: transform, opacity;
+}
+
+.banner-light {
+  animation: wave-fade 1200ms var(--ease-out-wave) both;
+}
+
+@keyframes wave-grow {
+  from {
+    transform: scale(0.06);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes wave-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .banner-wave,
+  .banner-light {
+    animation: none;
+  }
+}
