@@ -1,5 +1,43 @@
 @import "tailwindcss";
 
+/* Latin subsets, self-hosted so text doesn't wait on a third-party stylesheet. */
+@font-face {
+  font-family: "Familjen Grotesk";
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/familjen-grotesk-latin-400-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Familjen Grotesk";
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/familjen-grotesk-latin-500-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Geist";
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/geist-sans-latin-400-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Geist Mono";
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/geist-mono-latin-400-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Geist Mono";
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/geist-mono-latin-500-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Bebas Neue";
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/bebas-neue-latin-400-normal.woff2") format("woff2");
+}
+
 @theme {
   /* Neue Montreal is the design typeface. Drop its .woff2 files in /public/fonts
      and add @font-face rules to use it; Familjen Grotesk is the closest free match in width. */
@@ -37,29 +75,38 @@
 }
 
 /*
- * Banner wave intro.
- * Each wave layer grows out of the leaf's left tip (--wave-origin), the point
- * where the gradient shape starts in the design, instead of from its centre.
- * Plays once per page load: the banner never remounts, so only a refresh replays it.
+ * Banner wave intro, driven by data-phase on the banner:
+ *   loading  – images still decoding; art stays hidden so decoding can't eat the opening frames
+ *   playing  – each layer grows out of the leaf's left tip (--wave-origin)
+ *   done     – animation and its compositor layers are released
+ * The banner never remounts, so it plays once per page load or refresh.
  */
 .banner-wave {
   transform-origin: var(--wave-origin);
-  animation:
-    wave-grow 1500ms var(--ease-out-wave) var(--wave-delay, 0ms) both,
-    wave-fade 600ms var(--ease-out-wave) var(--wave-delay, 0ms) both;
+}
+
+/* Promote the layers while still hidden, so layer setup doesn't land on the first frame of motion. */
+:is([data-phase="loading"], [data-phase="playing"]) .banner-wave {
   will-change: transform, opacity;
 }
 
-.banner-light {
-  animation: wave-fade 1200ms var(--ease-out-wave) both;
+[data-phase="loading"] :is(.banner-wave, .banner-light) {
+  opacity: 0;
+}
+
+[data-phase="playing"] .banner-wave {
+  animation:
+    wave-grow 1500ms var(--ease-out-wave) var(--wave-delay) backwards,
+    wave-fade 600ms var(--ease-out-wave) var(--wave-delay) backwards;
+}
+
+[data-phase="playing"] .banner-light {
+  animation: wave-fade 1200ms var(--ease-out-wave) backwards;
 }
 
 @keyframes wave-grow {
   from {
     transform: scale(0.06);
-  }
-  to {
-    transform: scale(1);
   }
 }
 
@@ -67,14 +114,11 @@
   from {
     opacity: 0;
   }
-  to {
-    opacity: 1;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .banner-wave,
-  .banner-light {
+  [data-phase="playing"] :is(.banner-wave, .banner-light) {
     animation: none;
+    will-change: auto;
   }
 }

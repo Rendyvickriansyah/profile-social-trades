@@ -1,4 +1,4 @@
-import texture from '../assets/texture.png'
+import texture from '../assets/texture.webp'
 import pixelsMask from '../assets/discord-pixels-mask.svg'
 import bloom from '../assets/discord-bloom.svg'
 import discordLogo from '../assets/discord-logo.svg'

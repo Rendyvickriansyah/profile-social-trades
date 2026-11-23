@@ -1,8 +1,8 @@
-import texture from '../assets/texture.png'
+import texture from '../assets/texture.webp'
 import pixelsMask from '../assets/status-pixels-mask.svg'
-import glowActive from '../assets/status-glow-active.svg'
-import glowPending from '../assets/status-glow-pending.svg'
-import glowExpired from '../assets/status-glow-expired.svg'
+import glowActive from '../assets/status-glow-active.webp'
+import glowPending from '../assets/status-glow-pending.webp'
+import glowExpired from '../assets/status-glow-expired.webp'
 
 const VARIANTS = {
   active: {

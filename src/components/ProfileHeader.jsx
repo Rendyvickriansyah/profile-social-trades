@@ -1,6 +1,6 @@
 import calendar from '../assets/calendar-fill.svg'
 import dividerV from '../assets/divider-v.svg'
-import scoreRing from '../assets/score-ring.svg'
+import scoreRing from '../assets/score-ring.webp'
 
 const STATS = [
   { label: 'Trader Disubscribe', value: 4 },
