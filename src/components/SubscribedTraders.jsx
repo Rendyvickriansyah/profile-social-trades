@@ -60,12 +60,12 @@ export default function SubscribedTraders() {
       <div className="px-[16px] pt-[8px] pb-[16px]">
         <a
           href="#"
-          className="flex w-full items-center justify-center gap-[8px] overflow-clip border border-line bg-[#252525] py-[10px] pr-[8px] pl-[10px] shadow-[0px_0px_0px_1px_#0d0d0d] transition-[background-color,scale] duration-150 ease-out hover:bg-[#2c2c2c] active:scale-[0.98]"
+          className="group flex w-full items-center justify-center gap-[8px] overflow-clip border border-line bg-[#252525] py-[10px] pr-[8px] pl-[10px] shadow-[0px_0px_0px_1px_#0d0d0d] transition-[background-color,scale] duration-150 ease-out hover:bg-[#2c2c2c] active:scale-[0.98]"
         >
           <span className="font-mono text-[10px] leading-[1.4] font-medium tracking-[0.3px] whitespace-nowrap text-white uppercase">
             lihat semua
           </span>
-          <img alt="" className="size-[16px]" src={arrowRight} />
+          <img alt="" className="size-[16px] transition-transform duration-200 ease-out motion-safe:group-hover:translate-x-[2px]" src={arrowRight} />
         </a>
       </div>
     </section>

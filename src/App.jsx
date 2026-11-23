@@ -6,6 +6,7 @@ import ProfileHeader from './components/ProfileHeader.jsx'
 import FeedPost from './components/FeedPost.jsx'
 import SubscribedTraders from './components/SubscribedTraders.jsx'
 import DiscordNote from './components/DiscordNote.jsx'
+import Tabs from './components/Tabs.jsx'
 import dividerH from './assets/divider-h.svg'
 
 const BODY =
@@ -19,32 +20,6 @@ const POSTS = [
 ].map((p) => ({ ...p, author: 'Shadow Fox', time: '2 jam lalu', body: BODY, leverage: '5x', likes: 7, comments: 2 }))
 
 const TABS = ['Aktivitas', 'Pengaturan']
-
-function Tabs({ value, onChange }) {
-  return (
-    <div role="tablist" className="flex w-full items-center border-b border-line">
-      {TABS.map((tab) => {
-        const selected = tab === value
-        return (
-          <button
-            key={tab}
-            role="tab"
-            type="button"
-            aria-selected={selected}
-            onClick={() => onChange(tab)}
-            className={`-mb-px flex items-center justify-center border-b p-[12px] text-center text-[14px] leading-[1.4] whitespace-nowrap transition-colors duration-150 ease-out ${
-              selected
-                ? 'border-brand bg-gradient-to-b from-[rgba(42,98,255,0)] from-[66.477%] to-brand to-[128.79%] font-medium text-white'
-                : 'border-transparent text-muted hover:text-white'
-            }`}
-          >
-            {tab}
-          </button>
-        )
-      })}
-    </div>
-  )
-}
 
 function Feed() {
   return (
@@ -67,6 +42,13 @@ function Feed() {
 
 export default function App() {
   const [tab, setTab] = useState(TABS[0])
+  const [hasSwitched, setHasSwitched] = useState(false)
+
+  const selectTab = (next) => {
+    if (next === tab) return
+    setTab(next)
+    setHasSwitched(true)
+  }
 
   return (
     <div className="min-h-dvh bg-black">
@@ -77,18 +59,21 @@ export default function App() {
           <ProfileBanner />
           <div className="flex w-full flex-col gap-[32px] px-4 pt-[40px] pb-[80px] md:px-[48px]">
             <ProfileHeader />
-            <Tabs value={tab} onChange={setTab} />
-            {tab === 'Aktivitas' ? (
-              <div className="flex w-full flex-col items-start gap-[52px] xl:flex-row">
-                <Feed />
-                <aside className="flex w-full shrink-0 flex-col gap-[16px] xl:w-[350px]">
-                  <SubscribedTraders />
-                  <DiscordNote />
-                </aside>
-              </div>
-            ) : (
-              <p className="px-[12px] text-[14px] leading-[1.4] text-muted">Pengaturan profil belum tersedia.</p>
-            )}
+            <Tabs tabs={TABS} value={tab} onChange={selectTab} />
+            {/* Keyed by tab so the panel remounts and replays its entrance on each switch. */}
+            <div key={tab} role="tabpanel" className={hasSwitched ? 'tab-panel-enter' : undefined}>
+              {tab === 'Aktivitas' ? (
+                <div className="flex w-full flex-col items-start gap-[52px] xl:flex-row">
+                  <Feed />
+                  <aside className="flex w-full shrink-0 flex-col gap-[16px] xl:w-[350px]">
+                    <SubscribedTraders />
+                    <DiscordNote />
+                  </aside>
+                </div>
+              ) : (
+                <p className="px-[12px] text-[14px] leading-[1.4] text-muted">Pengaturan profil belum tersedia.</p>
+              )}
+            </div>
           </div>
         </main>
       </div>

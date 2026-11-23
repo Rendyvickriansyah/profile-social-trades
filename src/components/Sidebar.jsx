@@ -122,10 +122,10 @@ export default function Sidebar() {
           ))}
           <a
             href="#"
-            className="flex w-full items-center gap-[6px] px-[12px] py-[8px] text-[14px] leading-[1.4] whitespace-nowrap text-muted transition-colors duration-150 ease-out hover:text-white"
+            className="group flex w-full items-center gap-[6px] px-[12px] py-[8px] text-[14px] leading-[1.4] whitespace-nowrap text-muted transition-colors duration-150 ease-out hover:text-white"
           >
             Lihat Lebih Banyak
-            <img alt="" className="size-[16px]" src={arrowRightS} />
+            <img alt="" className="size-[16px] transition-transform duration-200 ease-out motion-safe:group-hover:translate-x-[2px]" src={arrowRightS} />
           </a>
         </div>
 

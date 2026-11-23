@@ -52,6 +52,8 @@
   --color-line: rgb(255 255 255 / 0.1);
   --color-brand: #2a62ff;
 
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
   --ease-out-wave: cubic-bezier(0.33, 1, 0.68, 1);
 }
 
@@ -116,7 +118,47 @@
   }
 }
 
+/* Tab panel swap: only plays after the user switches tabs, never on first load. */
+.tab-panel-enter {
+  animation: panel-in 200ms var(--ease-out);
+}
+
+@keyframes panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+
+/* Like: a quick overshoot when the heart fills. Unliking stays instant. */
+.heart-pop {
+  animation: heart-pop 300ms var(--ease-out);
+}
+
+@keyframes heart-pop {
+  from {
+    transform: scale(0.8);
+  }
+  45% {
+    transform: scale(1.15);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .tab-panel-enter {
+    animation-name: fade-in;
+  }
+
+  .heart-pop {
+    animation: none;
+  }
+
   [data-phase="playing"] :is(.banner-wave, .banner-light) {
     animation: none;
     will-change: auto;

@@ -40,12 +40,12 @@ export default function DiscordNote() {
           href="https://discord.com"
           target="_blank"
           rel="noreferrer"
-          className="flex items-center gap-[4px] transition-opacity duration-150 ease-out hover:opacity-80"
+          className="group flex items-center gap-[4px] transition-opacity duration-150 ease-out hover:opacity-80"
         >
           <span className="bg-gradient-to-r from-[rgba(120,156,255,0.98)] via-[#3b6ef9] via-[27.885%] to-brand bg-clip-text text-[12px] leading-[1.4] font-medium whitespace-nowrap text-transparent">
             Ubah di Discord
           </span>
-          <img alt="" className="size-[12px]" src={arrowUpRight} />
+          <img alt="" className="size-[12px] transition-transform duration-200 ease-out motion-safe:group-hover:translate-x-px motion-safe:group-hover:-translate-y-px" src={arrowUpRight} />
         </a>
       </div>
 

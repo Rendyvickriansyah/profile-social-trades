@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import Status from './Status.jsx'
 import avatar from '../assets/avatar-32.png'
 import dotSep from '../assets/dot-sep.svg'
@@ -7,7 +8,6 @@ import cardPixelsMask from '../assets/card-pixels-mask.svg'
 import btcMask from '../assets/btc-mask.svg'
 import btc from '../assets/btc.svg'
 import arrowRight from '../assets/arrow-right-s-line-lg.svg'
-import heart from '../assets/heart-fill.svg'
 import chat from '../assets/chat-1-line.svg'
 import share from '../assets/share.svg'
 
@@ -17,7 +17,7 @@ const SIDE = {
 }
 
 const actionButton =
-  'flex items-center gap-[6px] rounded-full text-[14px] leading-[1.4] font-medium transition-[opacity,scale] duration-150 ease-out hover:opacity-80 active:scale-[0.96]'
+  'flex items-center gap-[6px] rounded-full text-[14px] leading-[1.4] font-medium transition-[opacity,scale,color] duration-150 ease-out hover:opacity-80 active:scale-[0.96]'
 
 function BitcoinIcon() {
   return (
@@ -34,8 +34,26 @@ function BitcoinIcon() {
   )
 }
 
+function HeartIcon() {
+  return (
+    <svg aria-hidden width="16" height="16" viewBox="0 0 16 16" fill="currentColor" className="block size-[16px]">
+      <path d="M8.00067 3.01933C9.56667 1.61333 11.9867 1.66 13.4953 3.17133C15.0033 4.68333 15.0553 7.09133 13.6527 8.662L7.99933 14.3233L2.34733 8.662C0.944667 7.09133 0.997333 4.67933 2.50467 3.17133C4.01467 1.662 6.43 1.61133 8.00067 3.01933Z" />
+    </svg>
+  )
+}
+
 export default function FeedPost({ author, time, body, side, leverage, status, likes, comments }) {
   const s = SIDE[side]
+  // Posts arrive already liked, as in the design. popCount re-keys the heart so the
+  // pop replays on every like; it stays 0 on load so nothing animates on arrival.
+  const [liked, setLiked] = useState(true)
+  const [popCount, setPopCount] = useState(0)
+  const likeCount = liked ? likes : likes - 1
+
+  const toggleLike = () => {
+    if (!liked) setPopCount((n) => n + 1)
+    setLiked(!liked)
+  }
   return (
     <article className="flex w-full flex-col gap-[20px] rounded-[4px]">
       <header className="flex w-full items-center gap-[10px] px-[12px]">
@@ -93,15 +111,27 @@ export default function FeedPost({ author, time, body, side, leverage, status, l
           </span>
 
           <Status state={status} />
-          <img alt="" className="relative size-[20px] shrink-0" src={arrowRight} />
+          <img
+            alt=""
+            className="relative size-[20px] shrink-0 transition-transform duration-200 ease-out motion-safe:group-hover:translate-x-[2px]"
+            src={arrowRight}
+          />
           <span aria-hidden className="pointer-events-none absolute inset-0 shadow-[inset_0px_1px_1px_0px_rgba(255,255,255,0.12),inset_0px_-1.66px_1.66px_0px_rgba(0,0,0,0.12)]" />
         </a>
       </div>
 
       <footer className="flex w-full items-center gap-[8px] pt-[8px] pl-[12px]">
-        <button type="button" aria-label={`Suka, ${likes}`} className={`${actionButton} pr-[8px] text-[red]`}>
-          <img alt="" className="size-[16px]" src={heart} />
-          <span className="tabular-nums">{likes}</span>
+        <button
+          type="button"
+          aria-label="Suka"
+          aria-pressed={liked}
+          onClick={toggleLike}
+          className={`${actionButton} pr-[8px] ${liked ? 'text-[red]' : 'text-muted'}`}
+        >
+          <span key={popCount} className={popCount > 0 ? 'heart-pop' : undefined}>
+            <HeartIcon />
+          </span>
+          <span className="tabular-nums">{likeCount}</span>
         </button>
         <button type="button" aria-label={`Komentar, ${comments}`} className={`${actionButton} px-[8px] text-muted`}>
           <img alt="" className="size-[16px]" src={chat} />
