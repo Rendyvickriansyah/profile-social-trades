@@ -51,9 +51,11 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-dvh bg-black">
+    // overflow-x-clip: decorative glows (the score ring's halo) bleed past the edge;
+    // clip them without making the page a horizontal scroll container.
+    <div className="min-h-dvh overflow-x-clip bg-black">
       <Navbar />
-      <div className="flex w-full items-start lg:pl-[52px]">
+      <div className="mx-auto flex w-full max-w-[1440px] items-start lg:pl-[52px]">
         <Sidebar />
         <main className="flex min-w-0 flex-1 flex-col">
           <ProfileBanner />

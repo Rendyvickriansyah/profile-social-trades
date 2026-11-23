@@ -91,7 +91,7 @@ export default function FeedPost({ author, time, body, side, leverage, status, l
             />
           </span>
 
-          <span className="relative flex min-w-0 flex-1 items-center gap-[24px]">
+          <span className="relative flex min-w-0 flex-1 flex-wrap items-center gap-x-[24px] gap-y-[8px]">
             <span className="flex shrink-0 items-center gap-[12px]">
               <BitcoinIcon />
               <span className="flex items-center gap-[8px] text-[14px] leading-[1.4] whitespace-nowrap">
