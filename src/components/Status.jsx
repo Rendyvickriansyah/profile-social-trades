@@ -19,6 +19,17 @@ const VARIANTS = {
     dot: 'linear-gradient(-49.91deg, rgb(255, 188, 44) 48.015%, rgb(255, 245, 224) 89.163%)',
     wash: 'from-[rgba(255,188,44,0)] to-[rgba(255,188,44,0.2)]',
   },
+  // Home's signal cards: same chip, no glow bar in the design.
+  running: {
+    label: 'Running',
+    dot: 'linear-gradient(-49.91deg, rgb(0, 175, 0) 48.015%, rgb(214, 250, 209) 89.163%)',
+    wash: 'from-[rgba(66,238,63,0)] to-[rgba(66,238,63,0.2)]',
+  },
+  closed: {
+    label: 'Ditutup',
+    dot: 'linear-gradient(-49.91deg, rgb(0, 49, 184) 48.015%, rgb(70, 120, 255) 89.163%)',
+    wash: 'from-[rgba(0,49,184,0)] to-[rgba(0,49,184,0.2)]',
+  },
   expired: {
     label: 'Kadaluarsa',
     glow: glowExpired,
@@ -32,11 +43,13 @@ export default function Status({ state = 'active' }) {
   const v = VARIANTS[state]
   return (
     <span className="relative flex shrink-0 items-center justify-center gap-[8px] overflow-clip border border-white/20 bg-gradient-to-b from-[#121212] to-[#040404] px-[12px] py-[4px] shadow-[0px_0px_0px_1px_black]">
-      <span aria-hidden className={`absolute top-[7px] h-[9px] w-[3px] ${v.glowLeft}`}>
-        <span className="absolute inset-[-3772.69%_-11318.06%]">
-          <img alt="" className="block size-full max-w-none" src={v.glow} />
+      {v.glow && (
+        <span aria-hidden className={`absolute top-[7px] h-[9px] w-[3px] ${v.glowLeft}`}>
+          <span className="absolute inset-[-3772.69%_-11318.06%]">
+            <img alt="" className="block size-full max-w-none" src={v.glow} />
+          </span>
         </span>
-      </span>
+      )}
       <span
         aria-hidden
         className="absolute top-[calc(50%-30.68px)] left-[calc(50%-53.58px)] h-[87.196px] w-[308.077px] -translate-x-1/2 -translate-y-1/2 opacity-15 mask-alpha mask-intersect mask-no-clip mask-no-repeat mask-position-[17.118px_20.781px] mask-size-[245.043px_89.102px]"

@@ -1,4 +1,6 @@
+import { NavLink } from 'react-router-dom'
 import home from '../assets/home-4-fill.svg'
+import homeActive from '../assets/home/home-4-fill-active.svg'
 import barChart from '../assets/bar-chart-fill.svg'
 import bookmark from '../assets/bookmark-3-fill.svg'
 import userActive from '../assets/user-3-fill-active.svg'
@@ -14,10 +16,10 @@ import subAvatar2 from '../assets/sub-avatar-2.png'
 import subAvatar3 from '../assets/sub-avatar-3.png'
 
 const GENERAL = [
-  { label: 'Home', icon: home },
+  { label: 'Home', to: '/', icon: home, activeIcon: homeActive },
   { label: 'Signal', icon: barChart },
   { label: 'Feeds', icon: bookmark },
-  { label: 'Profile', icon: userActive, active: true },
+  { label: 'Profile', to: '/profile', icon: user, activeIcon: userActive },
 ]
 
 const SUBSCRIPTIONS = [
@@ -56,17 +58,14 @@ function Corner({ src, className, rotate = '' }) {
   )
 }
 
-function NavItem({ label, icon, active }) {
+const itemClass = (active) =>
+  `relative flex w-full items-center gap-[8px] px-[12px] py-[8px] font-geist text-[14px] leading-[1.4] tracking-[-0.14px] transition-colors duration-150 ease-out ${
+    active ? 'border-[0.5px] border-line bg-white/8 text-white' : 'text-dim hover:text-white'
+  }`
+
+function ItemContent({ label, icon, active }) {
   return (
-    <a
-      href="#"
-      aria-current={active ? 'page' : undefined}
-      className={`relative flex w-full items-center gap-[8px] px-[12px] py-[8px] font-geist text-[14px] leading-[1.4] tracking-[-0.14px] transition-colors duration-150 ease-out ${
-        active
-          ? 'border-[0.5px] border-line bg-white/8 text-white'
-          : 'text-dim hover:text-white'
-      }`}
-    >
+    <>
       <img alt="" className="size-[14px] shrink-0" src={icon} />
       <span className="min-w-0 flex-1">{label}</span>
       {active && (
@@ -77,13 +76,29 @@ function NavItem({ label, icon, active }) {
           <Corner src={cornerBl} className="bottom-[-0.5px] left-[-0.5px]" rotate="-rotate-90" />
         </>
       )}
-    </a>
+    </>
   )
 }
 
-export default function Sidebar() {
+// Items with a route highlight themselves; the rest are placeholders for pages that don't exist yet.
+function NavItem({ label, to, icon, activeIcon }) {
+  if (!to) {
+    return (
+      <a href="#" className={itemClass(false)}>
+        <ItemContent label={label} icon={icon} />
+      </a>
+    )
+  }
   return (
-    <aside className="hidden w-[212px] shrink-0 flex-col gap-[28px] self-stretch border-r border-line px-[16px] pt-[24px] pb-[8px] lg:flex">
+    <NavLink to={to} end className={({ isActive }) => itemClass(isActive)}>
+      {({ isActive }) => <ItemContent label={label} icon={isActive ? activeIcon : icon} active={isActive} />}
+    </NavLink>
+  )
+}
+
+export default function Sidebar({ className = 'px-[16px]' }) {
+  return (
+    <aside className={`hidden w-[212px] shrink-0 flex-col gap-[28px] self-stretch border-r border-line pt-[24px] pb-[8px] lg:flex ${className}`}>
       <nav className="flex w-full flex-col gap-[6px]">
         <div className="flex w-full flex-col gap-[6px]">
           <SectionHeader>

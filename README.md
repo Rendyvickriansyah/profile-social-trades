@@ -1,6 +1,6 @@
 # Profile · TWS Social Trades
 
-Profile page built from the Figma design with React, Vite and Tailwind CSS v4.
+Home (`/`) and Profile (`/profile`) pages built from the Figma designs with React, Vite, React Router and Tailwind CSS v4. `vercel.json` rewrites every path to `index.html` so deep links work.
 
 ```bash
 npm install
@@ -10,6 +10,10 @@ npm run dev
 ## Banner intro
 
 The gradient wave in the cover grows out of its own starting point (the left tip of the shape) on page load, using an ease-out curve. Each layer starts 70ms after the one below it. It plays once per load or refresh, starts only after the banner images have decoded and the page has painted once, and is skipped when `prefers-reduced-motion` is set. The CSS lives in `src/index.css`, the layers in `src/components/ProfileBanner.jsx`.
+
+## Risk consent on Home
+
+On the first visit, Home opens the "Pernyataan Risiko & Tanggung Jawab" modal. Ticking the checkbox makes the pen write the signature: the ink is drawn with `stroke-dashoffset` and the pen rides the same SVG path with `offset-path`, so the nib stays on the ink. Both use the same 1.2s ease-in-out. Unticking rewinds in 450ms. "Saya Mengerti" stays disabled until the box is ticked. Accepting is stored in `localStorage` under `tws.riskConsent`; clear it to see the modal again.
 
 ## Pre-rendered assets
 

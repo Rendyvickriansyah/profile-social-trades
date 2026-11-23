@@ -54,6 +54,8 @@
 
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  /* easeInOutCubic (easings.net): gentler than --ease-in-out, reads like a hand writing. */
+  --ease-in-out-cubic: cubic-bezier(0.65, 0, 0.35, 1);
   --ease-out-wave: cubic-bezier(0.33, 1, 0.68, 1);
 }
 
@@ -165,7 +167,107 @@
   }
 }
 
+/*
+ * Risk consent signature. Unchecked: no ink, the pen waits at the start of the stroke.
+ * Checked: ink and pen travel the same path with the same timing, so the nib leads the ink.
+ * Unchecking rewinds faster than it writes. Transitions, so a quick re-click retargets mid-stroke.
+ */
+.signature-ink {
+  stroke-dasharray: 1 1.1;
+  /* Just past 1 so the round cap doesn't leave a dot at the start. */
+  stroke-dashoffset: 1.007;
+  transition: stroke-dashoffset 450ms var(--ease-in-out-cubic);
+}
+
+.signature-pen {
+  offset-anchor: 0 0;
+  offset-rotate: 0deg;
+  offset-distance: 0%;
+  transition: offset-distance 450ms var(--ease-in-out-cubic);
+  will-change: transform;
+}
+
+[data-signed="true"] .signature-ink {
+  stroke-dashoffset: 0;
+  transition-duration: 1200ms;
+}
+
+[data-signed="true"] .signature-pen {
+  offset-distance: 100%;
+  transition-duration: 1200ms;
+}
+
+.checkbox-mark path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 150ms var(--ease-out);
+}
+
+:checked + .checkbox-mark path {
+  stroke-dashoffset: 0;
+}
+
+/* Consent modal: first visit only. Exit is quicker and quieter than the entrance. */
+.modal-overlay {
+  animation: fade-in 200ms var(--ease-out);
+}
+
+.modal-panel {
+  animation: modal-in 250ms var(--ease-out);
+}
+
+[data-closing] .modal-overlay {
+  animation: fade-out 180ms var(--ease-out) forwards;
+}
+
+[data-closing] .modal-panel {
+  animation: modal-out 180ms var(--ease-out) forwards;
+}
+
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.96);
+  }
+}
+
+@keyframes modal-out {
+  to {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+}
+
+@keyframes fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  /* The pen jumps to its end point and the ink fades in instead of being written. */
+  .signature-pen {
+    transition: none;
+  }
+
+  .signature-ink {
+    opacity: 0;
+    transition: opacity 200ms ease;
+  }
+
+  [data-signed="true"] .signature-ink {
+    opacity: 1;
+    transition-duration: 200ms;
+  }
+
+  .modal-panel {
+    animation-name: fade-in;
+  }
+
+  [data-closing] .modal-panel {
+    animation-name: fade-out;
+  }
+
   .tab-panel-enter,
   .text-reveal {
     animation-name: fade-in;
