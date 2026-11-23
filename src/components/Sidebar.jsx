@@ -2,6 +2,7 @@ import { NavLink } from 'react-router-dom'
 import home from '../assets/home-4-fill.svg'
 import homeActive from '../assets/home/home-4-fill-active.svg'
 import barChart from '../assets/bar-chart-fill.svg'
+import barChartActive from '../assets/signal/bar-chart-fill-active.svg'
 import bookmark from '../assets/bookmark-3-fill.svg'
 import userActive from '../assets/user-3-fill-active.svg'
 import user from '../assets/user-3-fill.svg'
@@ -17,7 +18,7 @@ import subAvatar3 from '../assets/sub-avatar-3.png'
 
 const GENERAL = [
   { label: 'Home', to: '/', icon: home, activeIcon: homeActive },
-  { label: 'Signal', icon: barChart },
+  { label: 'Signal', to: '/signal', icon: barChart, activeIcon: barChartActive },
   { label: 'Feeds', icon: bookmark },
   { label: 'Profile', to: '/profile', icon: user, activeIcon: userActive },
 ]

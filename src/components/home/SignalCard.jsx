@@ -33,7 +33,8 @@ function Level({ label, value }) {
 
 const levelDivider = <span aria-hidden className="h-[36px] w-px shrink-0 bg-[#1d1d1d]" />
 
-export default function SignalCard({ coin, side, status, pnl, pct, tone, entry, tp, sl }) {
+// `mine` adds the owner's Edit / Tutup actions (Home's My Signal list).
+export default function SignalCard({ coin, side, status, pnl, pct, tone, entry, tp, sl, mine = false }) {
   return (
     <article className="flex w-full flex-col gap-[12px] border border-line bg-gradient-to-b from-[#090909] to-[#0e0e0e] px-[20px] py-[16px]">
       <div className="flex w-full flex-col gap-[16px]">
@@ -93,17 +94,19 @@ export default function SignalCard({ coin, side, status, pnl, pct, tone, entry, 
         </span>
       </div>
 
-      <div className="flex w-full gap-[12px]">
-        {['Edit Sinyal', 'Tutup Sinyal'].map((label) => (
-          <button
-            key={label}
-            type="button"
-            className="flex-1 border border-line bg-[#1a1a1a] px-[12px] py-[8px] text-[12px] leading-[1.4] font-medium text-white transition-[background-color,scale] duration-150 ease-out hover:bg-[#222] active:scale-[0.98]"
-          >
-            {label}
-          </button>
-        ))}
-      </div>
+      {mine && (
+        <div className="flex w-full gap-[12px]">
+          {['Edit Sinyal', 'Tutup Sinyal'].map((label) => (
+            <button
+              key={label}
+              type="button"
+              className="flex-1 border border-line bg-[#1a1a1a] px-[12px] py-[8px] text-[12px] leading-[1.4] font-medium text-white transition-[background-color,scale] duration-150 ease-out hover:bg-[#222] active:scale-[0.98]"
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      )}
     </article>
   )
 }

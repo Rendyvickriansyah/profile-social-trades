@@ -1,6 +1,6 @@
 # Profile · TWS Social Trades
 
-Home (`/`) and Profile (`/profile`) pages built from the Figma designs with React, Vite, React Router and Tailwind CSS v4. `vercel.json` rewrites every path to `index.html` so deep links work.
+Home (`/`), Signal (`/signal`) and Profile (`/profile`) pages built from the Figma designs with React, Vite, React Router and Tailwind CSS v4. `vercel.json` rewrites every path to `index.html` so deep links work.
 
 ```bash
 npm install
@@ -14,6 +14,10 @@ The gradient wave in the cover grows out of its own starting point (the left tip
 ## Risk consent on Home
 
 On the first visit, Home opens the "Pernyataan Risiko & Tanggung Jawab" modal. Ticking the checkbox makes the pen write the signature: the ink is drawn with `stroke-dashoffset` and the pen rides the same SVG path with `offset-path`, so the nib stays on the ink. Both use the same 1.2s ease-in-out. Unticking rewinds in 450ms. "Saya Mengerti" stays disabled until the box is ticked. Accepting is stored in `localStorage` under `tws.riskConsent`; clear it to see the modal again.
+
+## Post Signal FAB
+
+On `/signal`, a floating "Post Signal" button appears bottom-right once the header button has scrolled out of view, and leaves when it comes back. It grows out of its bottom-right corner; the plus starts as a dot in the centre and its two bars stretch out of it with a slight twist and overshoot. Hover lifts it, spins the plus 90° and slides out a "Post Signal" label; press scales it to 0.96. Enter/exit are transitions, so fast scrolling retargets instead of restarting. Reduced motion keeps only the fade.
 
 ## Pre-rendered assets
 

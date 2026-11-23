@@ -62,7 +62,7 @@ export default function SignalSection() {
 
       <div className="grid w-full grid-cols-1 gap-x-[20px] gap-y-[28px] md:grid-cols-2">
         {SIGNALS.map(({ id, ...signal }) => (
-          <SignalCard key={id} {...signal} />
+          <SignalCard key={id} {...signal} mine />
         ))}
       </div>
     </section>
