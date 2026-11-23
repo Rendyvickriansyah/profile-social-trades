@@ -106,7 +106,10 @@ export default function ProfileBanner() {
             <Wave key={wave.src} {...wave} onDone={i === lastWave ? () => setPhase('done') : undefined} />
           ))}
 
-          <div className="absolute top-[calc(50%-10.82px)] left-[calc(50%-402.51px)] flex -translate-x-1/2 -translate-y-1/2 items-start gap-[10.966px]">
+          <div
+            className="text-reveal absolute top-[calc(50%-10.82px)] left-[calc(50%-402.51px)] flex -translate-x-1/2 -translate-y-1/2 items-start gap-[10.966px]"
+            style={{ '--i': 0 }}
+          >
             <img alt="" className="block h-[29.799px] w-[30.019px] shrink-0" src={bannerLogoMark} />
             <div className="flex flex-col items-start gap-[4.985px]">
               <img alt="TWS" className="block h-[15.37px] w-[44.494px]" src={bannerLogoTws} />

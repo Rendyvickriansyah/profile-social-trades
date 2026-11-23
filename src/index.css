@@ -118,6 +118,21 @@
   }
 }
 
+/*
+ * Identity text reveal, once per page load alongside the banner intro.
+ * Each element sets --i on itself (not on a parent) for its place in the stagger.
+ */
+.text-reveal {
+  animation: text-reveal 450ms var(--ease-out) calc(120ms + var(--i) * 60ms) backwards;
+}
+
+@keyframes text-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
 /* Tab panel swap: only plays after the user switches tabs, never on first load. */
 .tab-panel-enter {
   animation: panel-in 200ms var(--ease-out);
@@ -151,7 +166,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .tab-panel-enter {
+  .tab-panel-enter,
+  .text-reveal {
     animation-name: fade-in;
   }
 
